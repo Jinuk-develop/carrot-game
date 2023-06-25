@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrot Game</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="main.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/a4ef803faa.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section class="game">
+      <header class="game__header">
+        <button class="game__button">
+          <i class="fa-solid fa-play"></i>
+        </button>
+        <span class="game__timer">0:0</span>
+        <span class="game__score">10</span>
+      </header>
+      <section class="game__field"></section>
+    </section>
+    <section class="pop-up pop-up--hide">
+      <button class="pop-up__refresh">
+        <i class="fa-solid fa-rotate-right"></i>
+      </button>
+      <span class="pop-up__message">새로 시작하기</span>
+    </section>
+  </body>
+</html>

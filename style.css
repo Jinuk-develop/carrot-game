@@ -60,6 +60,7 @@ button {
 }
 
 .game__button {
+  position: relative;
   width: 60px;
   height: 60px;
   background-color: var(--color-begie);
@@ -70,6 +71,10 @@ button {
 
 .game__button:hover {
   transform: scale(1.1);
+}
+
+.game__button--hide {
+  opacity: 0;
 }
 
 .game__timer {
@@ -124,7 +129,7 @@ button {
   font-size: var(--font-regular);
   background-color: var(--color-begie);
   border: 2px solid var(--color-black);
-  border-radius: 50%;
+  border-radius: 20px;
 }
 
 .pop-up__message {

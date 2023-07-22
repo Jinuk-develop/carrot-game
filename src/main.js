@@ -1,4 +1,6 @@
 'use strict';
+import PopUp from './popup.js';
+
 const carrotSize = 80;
 const carrotCount = 5;
 const bugCount = 5;
@@ -11,15 +13,16 @@ const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
 
-const popUp = document.querySelector('.pop-up');
-const popUpText = document.querySelector('.pop-up__message');
-const popUpRefresh = document.querySelector('.pop-up__refresh');
-
 const carrotSound = new Audio('./sound/carrot_pull.mp3');
 const alertSound = new Audio('./sound/alert.wav');
 const bgSound = new Audio('./sound/bg.mp3');
 const bugSound = new Audio('./sound/bug_pull.mp3');
 const winSound = new Audio('./sound/game_win.mp3');
+
+const gameFinishBanner = new PopUp();
+gameFinishBanner.setClickListener(() => {
+  startGame();
+});
 
 // 초기값
 let started = false;
@@ -34,8 +37,10 @@ gameBtn.addEventListener('click', () => {
   }
   started = !started;
 });
+
 // 게임 시작, 정지.
 function startGame() {
+  started = true;
   inItGame();
   showStopBtn();
   showTimerAndScore();
@@ -44,9 +49,10 @@ function startGame() {
 }
 
 function stopGame() {
+  started = false;
   stopGameTimer();
   hideGameBtn();
-  showPopUpWithText('REPLAY❓');
+  gameFinishBanner.showWithText('REPLAY❓');
   playSound(alertSound);
   stopSound(bgSound);
 }
@@ -61,7 +67,7 @@ function finishGame(win) {
   }
   stopGameTimer();
   stopSound(bgSound);
-  showPopUpWithText(win ? 'YOU WON 🎊' : 'YOU LOST 🔥');
+  gameFinishBanner.showWithText(win ? 'YOU WON 🎊' : 'YOU LOST 🔥');
 }
 
 // 버튼 play, stop 바꾸기
@@ -116,23 +122,6 @@ function updateTimerText(time) {
   const seconds = time % 60;
   gameTimer.innerText = `${minutes}:${seconds}`;
 }
-
-// 팝업창 보이기
-function showPopUpWithText(text) {
-  popUpText.innerText = text;
-  popUp.classList.remove('pop-up--hide');
-}
-
-function hidePopUp() {
-  popUp.classList.add('pop-up--hide');
-}
-
-// 리플레이
-popUpRefresh.addEventListener('click', () => {
-  startGame();
-  hidePopUp();
-  showGameBtn();
-});
 
 // 버튼 누르면 해당 당근 삭제.
 field.addEventListener('click', onFieldClick);

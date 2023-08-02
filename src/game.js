@@ -1,5 +1,5 @@
 'use strict';
-import Field from './field.js';
+import { Field, ItemType } from './field.js';
 import * as sound from './sound.js';
 
 export const Reason = Object.freeze({
@@ -24,6 +24,7 @@ export class GameBuilder {
 
   bugCount(num) {
     this.bugCount = num;
+
     return this;
   }
 
@@ -44,13 +45,13 @@ class Game {
 
     this.gameBtn.addEventListener('click', () => {
       if (this.started) {
-        this.stop();
+        this.stop(Reason.cancel);
       } else {
         this.start();
       }
     });
 
-    this.gameField = new Field(carrotCount, bugCount);
+    this.gameField = new Field(carrotCount, bugCount, () => this.started);
     this.gameField.setClickListner(this.onItemClick);
     // 초기값
     this.started = false;
@@ -76,41 +77,23 @@ class Game {
     this.stopGameTimer();
     this.hideGameBtn();
     sound.stopBackground();
-    switch (reason) {
-      case Reason.cancel:
-        sound.playAlert();
-        break;
-      case Reason.win:
-        sound.playWin();
-        break;
-      case Reason.lose:
-        sound.playBug();
-        break;
-      default:
-        throw new Error('not valid reason');
-    }
-    this.onGameStop && this.onGameStop(reason);
-  }
 
-  // 게임 시작, 정지.
-  finish(win) {
-    if (win) {
-    } else {
-    }
+    this.onGameStop && this.onGameStop(reason);
   }
 
   onItemClick = (item) => {
     if (!this.started) {
+      console.log(this.started);
       return;
     }
-    if (item === 'carrot') {
+    if (item === ItemType.carrot) {
       this.score++;
       this.updateScoreBoard();
       if (this.score === this.carrotCount) {
-        this.finish(true);
+        this.stop(Reason.win);
       }
-    } else if (item === 'bug') {
-      this.finish(false);
+    } else if (item === ItemType.bug) {
+      this.stop(Reason.lose);
     }
   };
 
@@ -137,7 +120,7 @@ class Game {
     this.timer = setInterval(() => {
       if (remainingTimeSec <= 0) {
         clearInterval(this.timer);
-        this.finish(this.carrotCount === this.score);
+        this.stop(this.carrotCount === this.score ? Reason.win : Reason.lose);
         return;
       }
       this.updateTimerText(--remainingTimeSec);

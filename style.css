@@ -31,18 +31,26 @@
 }
 
 body {
+  position: relative;
   font-family: 'Archivo', sans-serif;
   margin: auto;
+  margin-top: 2rem;
   text-align: center;
   background-color: black;
+}
+
+.level {
+  font-size: var(--font-medium);
+  color: var(--color-white);
 }
 
 .game {
   display: flex;
   flex-direction: column;
-  width: 50rem;
-  height: 40rem;
+  width: 40rem;
+  height: 30rem;
   margin: auto;
+  margin-top: 3rem;
   background: var(--game-bg) center/cover;
   border-radius: 1rem;
 }

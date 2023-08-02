@@ -73,6 +73,7 @@ class Game {
   }
 
   stop(reason) {
+    this.gameField.moveStop();
     this.started = false;
     this.stopGameTimer();
     this.hideGameBtn();
